@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,8 +6,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './reservation-form.component.html',
   styleUrls: ['./reservation-form.component.css']
 })
-export class ReservationFormComponent {
-  reservation: FormGroup = new FormGroup({});
+export class ReservationFormComponent implements OnInit {
 
-  onSubmit(){}
+  reservationForm: FormGroup = new FormGroup({});
+
+  constructor(private formBuilder: FormBuilder){
+
+  }
+
+  ngOnInit(): void {
+    this.reservationForm = this.formBuilder.group({
+      checkInDate: ['', Validators.required],
+      checkOutDate: ['', Validators.required],
+      guestName: ['', Validators.required],
+      guestEmail: ['', [Validators.required, Validators.email]],
+      roomNumber: ['', Validators.required]
+    })
+  }
+
+  onSubmit(){
+    if(this.reservationForm.valid){
+      console.log('valid')
+    }
+    else{
+      console.log('invalid')
+    }
+  }
 }
